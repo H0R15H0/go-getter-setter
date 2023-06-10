@@ -1,5 +1,10 @@
-const ParserAndLexer = require('./parser/ts-calculator');
+const GolangParserAndLexer = require('./parser/golang');
 
-const txt = `1 + `;
-const res = new ParserAndLexer.TsCalcParser().parse(txt);
+const txt = `
+struct {
+  hoge string
+  fuga int
+}
+`;
+const res = new GolangParserAndLexer.GoParser().parse(txt);
 console.log(txt.trim(), '=', res);
