@@ -83,12 +83,10 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:`)/,
         /^(?:[^"`"\n]+)/,
         /^(?:`)/,
-        /^(?:\/\/)/,
-        /^(?:\n)/,
         /^(?:[a-zA-Z_][a-zA-Z0-9]*)/,
         /^(?:$)/
     ];
-    conditions: any = {"STRING":{"rules":[7,8],"inclusive":false},"BSTRING":{"rules":[10,11],"inclusive":false},"COMMENT":{"rules":[13],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,9,12,14,15],"inclusive":true}}
+    conditions: any = {"STRING":{"rules":[7,8],"inclusive":false},"BSTRING":{"rules":[10,11],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,9,12,13],"inclusive":true}}
     performAction (yy:any,yy_:any,$avoiding_name_collisions:any,YY_START:any): any {
           var YYSTATE=YY_START;
         switch($avoiding_name_collisions) {
@@ -109,13 +107,9 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 10:this.more();
       break;
-    case 11:this.begin('INITIAL'); return 17; 
-    case 12:this.begin('COMMENT'); this.more();
-      break;
-    case 13:this.begin('INITIAL');
-      break;
-    case 14:return 15
-    case 15:return 5
+    case 11:this.begin('INITIAL'); return 17;
+    case 12:return 15
+    case 13:return 5
         }
     }
 }

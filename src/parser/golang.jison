@@ -12,7 +12,7 @@ function hexlify (str:string): string {
 %lex
 %verbose999           // change to 'verbose' to see lexer decisions
 %no-break-if          (.*[^a-z] | '') 'return' ([^a-z].* | '') // elide trailing 'break;'
-%x STRING BSTRING COMMENT
+%x STRING BSTRING
 
 id                          [a-zA-Z_][a-zA-Z0-9]*
 
@@ -30,9 +30,7 @@ id                          [a-zA-Z_][a-zA-Z0-9]*
 <STRING>\"       this.begin('INITIAL'); return 'STRING'; 
 "`"                        this.begin('BSTRING');  this.more();
 <BSTRING>[^"`"\n]+    this.more();
-<BSTRING>"`"       this.begin('INITIAL'); return 'BSTRING'; 
-"//"                        this.begin('COMMENT'); this.more();
-<COMMENT>\n       this.begin('INITIAL');
+<BSTRING>"`"       this.begin('INITIAL'); return 'BSTRING';
 {id}                        return 'IDENT'
 <<EOF>>                     return 'EOF'
 
