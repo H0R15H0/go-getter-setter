@@ -6,6 +6,24 @@ function hexlify (str:string): string {
     .map(ch => '0x' + ch.charCodeAt(0).toString(16))
     .join(', ')
 }
+
+type Struct = {
+    name: string,
+    fields: Field[],
+}
+
+function makeStruct(structName:string, fields:Field[]): Struct {
+    return {name: structName, fields: fields}
+}
+
+type Field = {
+    name: string,
+    type: string,
+}
+
+function makeField(fieldName:string, type:string): Field {
+    return {name: fieldName, type: type}
+}
 %}
 
 /* lexical grammar */
@@ -25,6 +43,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "struct"                    return 'STRUCT'
 "type"                      return 'TYPE'
 "map"                       return 'MAP'
+"chan"                      return 'CHAN'
 /* "func"                      return 'FUNC' */
 "{"                         return 'LBRACE'
 "}"                         return 'RBRACE'
@@ -39,6 +58,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 ","                         return 'COMMA';
 "..."                       return 'DOTDOTDORT';
 "."                         return 'DOT';
+"<-"                        return 'LARROW';
 \"                        this.begin('STRING');  this.more();
 <STRING>[^\"\n]+    this.more();
 <STRING>\"       this.begin('INITIAL'); return 'STRING'; 
@@ -61,33 +81,43 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 pgm
     : TYPE Id StructType EOF
         { if (yy.trace) yy.trace('returning', $1);
-          return "type " + $2 + " " + $3 }
+          return makeStruct($2, $3 )}
     | TYPE Id TypeParameters StructType EOF
         { if (yy.trace) yy.trace('returning', $1);
-          return "type " + $2 + " " + $3 + " " + $4 }
+          return makeStruct($2+$3, $4)}
     ;
 
 StructType
     : STRUCT LBRACE FieldList RBRACE
-        {$$ = "struct {" + $3 + " }" ;}
+        {$$ = $3}
     ;
 
 FieldList
     : Field
-        {$$ = $1 + "; "}
+        {
+            $$ = [$1];
+        }
     | Field SEMICOLON
-        {$$ = $1 + "; "}
+        {
+            $$ = [$1];
+        }
     | Field FieldList
-        {$$ = $1 + "; " + $2}
+        {
+            $2.push($1);
+            $$ = $2
+        }
     | Field SEMICOLON FieldList
-        {$$ = $1 + "; " + $3}
+        {
+            $3.push($1);
+            $$ = $3
+        }
     ;
 
 Field
     : IdList Type Tag
-        {$$ = $1 + " " + $2 + " " + $3}
+        {$$ = makeField($1, $2)}
     | IdList Type
-        {$$ = $1 + " " + $2}
+        {$$ = makeField($1, $2)}
     /* | EmbeddedField Tag
         {$$ = $1 + " " + $2 + " " + $3}
     | EmbeddedField
@@ -203,7 +233,8 @@ TypeLit
     : ArrayType
         {$$ = $1}
     | StructType
-        {$$ = $1}
+        /* {$$ = $1.name} */
+        {$$ = "struct{ " + $1.map((f: Field) => (f.name + " " + f.type)).join(", ") + " }"}
     | PointerType
         {$$ = $1}
     /* | FunctionType
@@ -213,7 +244,8 @@ TypeLit
         {$$ = $1}
     | MapType
         {$$ = $1}
-    /* | ChannelType */
+    | ChannelType
+        {$$ = $1}
     ;
 
 SliceType
@@ -224,6 +256,15 @@ SliceType
 MapType
     : MAP LBRACKET Type RBRACKET ElementType
         {$$ = "map[" + $3 + "]" + $5}
+    ;
+
+ChannelType
+    : CHAN ElementType
+        {$$ = "chan " + $2}
+    | CHAN LARROW ElementType
+        {$$ = "chan <- " + $3}
+    | LARROW CHAN ElementType
+        {$$ = "<- chan " + $3}
     ;
 
 ArrayType
