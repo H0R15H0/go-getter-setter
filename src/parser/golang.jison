@@ -30,9 +30,9 @@ function makeField(fieldName:string, type:string): Field {
 %lex
 %verbose999           // change to 'verbose' to see lexer decisions
 %no-break-if          (.*[^a-z] | '') 'return' ([^a-z].* | '') // elide trailing 'break;'
-%x STRING BSTRING
+%x STRING BSTRING DDDTYPE
 
-id                          [a-zA-Z_][a-zA-Z0-9]*
+id                          [a-zA-Z_][a-zA-Z0-9_]*
 integer                     [0]|([1-9][0-9]*) /* TODO */
 
 %%
@@ -44,7 +44,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "type"                      return 'TYPE'
 "map"                       return 'MAP'
 "chan"                      return 'CHAN'
-/* "func"                      return 'FUNC' */
+"func"                      return 'FUNC'
 "{"                         return 'LBRACE'
 "}"                         return 'RBRACE'
 "("                         return 'LPAREN'
@@ -56,7 +56,10 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "*"                         return 'ASTER';
 "~"                         return 'TILDE';
 ","                         return 'COMMA';
-"..."                       return 'DOTDOTDORT';
+/* "..."                       return 'DOTDOTDOT'; */
+"..."                       this.begin('DDDTYPE'); this.more();
+<DDDTYPE>^[a-zA-Z0-9_]+            this.begin('INITIAL'); return 'DDDTYPE'; 
+<DDDTYPE>.+               this.more();
 "."                         return 'DOT';
 "<-"                        return 'LARROW';
 \"                        this.begin('STRING');  this.more();
@@ -118,6 +121,7 @@ Field
         {$$ = makeField($1, $2)}
     | IdList Type
         {$$ = makeField($1, $2)}
+    /* TODO: support embedded field*/
     /* | EmbeddedField Tag
         {$$ = $1 + " " + $2 + " " + $3}
     | EmbeddedField
@@ -137,6 +141,8 @@ Field
 
 Id
     : IDENT
+        {$$ = yytext}
+    | DDDTYPE // NOTE: Use ...type as identifier to aviod conflict caused by ParameterDecl
         {$$ = yytext}
     ;
 
@@ -233,12 +239,11 @@ TypeLit
     : ArrayType
         {$$ = $1}
     | StructType
-        /* {$$ = $1.name} */
         {$$ = "struct{ " + $1.map((f: Field) => (f.name + " " + f.type)).join(", ") + " }"}
     | PointerType
         {$$ = $1}
-    /* | FunctionType
-        {$$ = $1} */
+    | FunctionType
+        {$$ = $1}
     /* | InterfaceType */
     | SliceType
         {$$ = $1}
@@ -246,6 +251,8 @@ TypeLit
         {$$ = $1}
     | ChannelType
         {$$ = $1}
+    | DDDTYPE
+        {$$ = yytext}
     ;
 
 SliceType
@@ -292,7 +299,7 @@ BaseType
         {$$ = $1}
     ;
 
-/* FunctionType
+FunctionType
     : FUNC Signature
         {$$ = $1 + " " + $2}
     ;
@@ -305,12 +312,13 @@ Signature
     ;
 
 Result
-    : TypeList
-        {$$ = $1}
-    | LPAREN TypeList RPAREN
+    : LPAREN RPAREN
+        {$$ = "()"}
+    | LPAREN ParameterList RPAREN
         {$$ = "(" + $2 + ")"}
-    | LPAREN TypeList COMMA RPAREN
+    | LPAREN ParameterList COMMA RPAREN
         {$$ = "(" + $2 + ")"}
+    /* TODO: support non paren return */
     ;
 
 Parameters
@@ -326,17 +334,19 @@ ParameterList
     : ParameterDecl
         {$$ = $1}
     | ParameterList COMMA ParameterDecl
-        {$$ = $1 + ", " + $2}
+        {$$ = $1 + ", " + $3}
     ;
 
 ParameterDecl
-    | IdList DOTDOTDOT Type
-        {$$ = $1 + " ... " + $3}
-    : IdList Type
-        {$$ = $1 + " " + $2}
-    : Type
+    : IdList //NOTE: use IdList instead of Type to aviod conflict
         {$$ = $1}
-    ; */
+    | IdList Type
+        {$$ = $1 + " " + $2}
+    /* | IdList DDDTYPE
+        {$$ = $1 + " ..." + $2} */
+    /* | DDDTYPE
+        {$$ = "..." + $1} */
+    ;
 
 QualifiedIdent
     : Id DOT Id //TODO: packagename

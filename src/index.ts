@@ -13,7 +13,11 @@ type user[
   books []int
   comment map[string]int
   ch <-chan <-chan int
-  // getBook func( string) (string, int)
+  getBook func(a, b string, c int, b ...bool) (hoge int, hoge)
+  getPost func(string, int, ...bool) (string)
+  getBooks func(a, b )
+  getPosts func(...string)
+  hoge, hoge string
   // hgoe
 } // hgoe
 `;
