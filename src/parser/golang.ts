@@ -12,19 +12,19 @@ function hexlify (str:string): string {
 
 export class GoParser extends JisonParser implements JisonParserApi {
     $?: any;
-    symbols_: SymbolsType = {"error":2,"pgm":3,"StructType":4,"EOF":5,"STRUCT":6,"LBRACE":7,"FieldList":8,"RBRACE":9,"Field":10,"Id":11,"Type":12,"Tag":13,"SEMICOLON":14,"IDENT":15,"STRING":16,"BSTRING":17,"$accept":0,"$end":1};
-    terminals_: TerminalsType = {2:"error",5:"EOF",6:"STRUCT",7:"LBRACE",9:"RBRACE",14:"SEMICOLON",15:"IDENT",16:"STRING",17:"BSTRING"};
-    productions_: ProductionsType = [0,[3,2],[4,4],[8,1],[8,2],[10,4],[10,3],[11,1],[12,1],[13,1],[13,1],[13,0]];
+    symbols_: SymbolsType = {"error":2,"pgm":3,"StructType":4,"EOF":5,"STRUCT":6,"LBRACE":7,"FieldList":8,"RBRACE":9,"Field":10,"SEMICOLON":11,"IdList":12,"Type":13,"Tag":14,"Id":15,"IDENT":16,"COMMA":17,"STRING":18,"BSTRING":19,"TypeName":20,"TypeLit":21,"LPAREN":22,"RPAREN":23,"$accept":0,"$end":1};
+    terminals_: TerminalsType = {2:"error",5:"EOF",6:"STRUCT",7:"LBRACE",9:"RBRACE",11:"SEMICOLON",16:"IDENT",17:"COMMA",18:"STRING",19:"BSTRING",22:"LPAREN",23:"RPAREN"};
+    productions_: ProductionsType = [0,[3,2],[4,4],[8,1],[8,2],[8,2],[8,3],[10,3],[10,2],[15,1],[12,1],[12,3],[14,1],[14,1],[13,1],[13,1],[13,3],[20,1],[21,1]];
     table: Array<StateType>;
-    defaultActions: {[key:number]: any} = {4:[2,1],9:[2,7],10:[2,2],11:[2,4]};
+    defaultActions: {[key:number]: any} = {4:[2,1],13:[2,5],21:[2,6]};
 
     constructor (yy = {}, lexer = new GoLexer(yy)) {
       super(yy, lexer);
 
       // shorten static method to just `o` for terse STATE_TABLE
-      const $V0=[1,9],$V1=[9,14,15],$V2=[9,15];
+      const $V0=[1,3],$V1=[1,10],$V2=[1,17],$V3=[6,16,22],$V4=[9,11,16],$V5=[9,11,16,18,19,23];
       const o = JisonParser.expandParseTable;
-      this.table = [{3:1,4:2,6:[1,3]},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:6,10:7,11:8,15:$V0},{9:[1,10]},{8:11,9:[2,3],10:7,11:8,15:$V0},{12:12,15:[1,13]},{15:[2,7]},{5:[2,2]},{9:[2,4]},o($V1,[2,11],{13:14,16:[1,15],17:[1,16]}),o([9,14,15,16,17],[2,8]),o($V2,[2,6],{14:[1,17]}),o($V1,[2,9]),o($V1,[2,10]),o($V2,[2,5])];
+      this.table = [{3:1,4:2,6:$V0},{1:[3]},{5:[1,4]},{7:[1,5]},{1:[2,1]},{8:6,10:7,12:8,15:9,16:$V1},{9:[1,11]},{8:13,9:[2,3],10:7,11:[1,12],12:8,15:9,16:$V1},{4:19,6:$V0,13:14,15:18,16:$V1,20:15,21:16,22:$V2},o($V3,[2,10],{17:[1,20]}),o([6,9,11,16,17,18,19,22,23],[2,9]),o([5,9,11,16,18,19,23],[2,2]),{8:21,9:[2,4],10:7,12:8,15:9,16:$V1},{9:[2,5]},o($V4,[2,8],{14:22,18:[1,23],19:[1,24]}),o($V5,[2,14]),o($V5,[2,15]),{4:19,6:$V0,13:25,15:18,16:$V1,20:15,21:16,22:$V2},o($V5,[2,17]),o($V5,[2,18]),{12:26,15:9,16:$V1},{9:[2,6]},o($V4,[2,7]),o($V4,[2,12]),o($V4,[2,13]),{23:[1,27]},o($V3,[2,11]),o($V5,[2,16])];
     }
 
     performAction (yytext:string, yyleng:number, yylineno:number, yy:any, yystate:number /* action[1] */, $$:any /* vstack */, _$:any /* lstack */): any {
@@ -36,25 +36,37 @@ case 1:
           return $$[$0-1]; 
 break;
 case 2:
-this.$ = $$[$0-1];
+this.$ = "struct {" + $$[$0-1] + " }" ;
 break;
 case 3:
 this.$ = $$[$0] + "; "
 break;
 case 4:
-this.$ = $$[$0-1] + "; " + $$[$0]
+this.$ = $$[$0-1] + "; "
 break;
 case 5:
-this.$ = $$[$0-3] + " " + $$[$0-2] + " " + $$[$0-1]
+this.$ = $$[$0-1] + "; " + $$[$0]
 break;
 case 6:
+this.$ = $$[$0-2] + "; " + $$[$0]
+break;
+case 7:
 this.$ = $$[$0-2] + " " + $$[$0-1] + " " + $$[$0]
 break;
-case 7: case 8: case 9: case 10:
+case 8:
+this.$ = $$[$0-1] + " " + $$[$0]
+break;
+case 9: case 12: case 13: case 17:
 this.$ = yytext
 break;
+case 10: case 14: case 15: case 18:
+this.$ = $$[$0]
+break;
 case 11:
-this.$ = null
+this.$ = $$[$0-2] + ", " + $$[$0]
+break;
+case 16:
+this.$ = $$[$0-1]
 break;
         }
     }
@@ -76,7 +88,13 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:struct\b)/,
         /^(?:\{)/,
         /^(?:\})/,
+        /^(?:\()/,
+        /^(?:\))/,
+        /^(?:\[)/,
+        /^(?:\])/,
         /^(?:;)/,
+        /^(?:,)/,
+        /^(?:\.)/,
         /^(?:")/,
         /^(?:[^\"\n]+)/,
         /^(?:")/,
@@ -86,7 +104,7 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:[a-zA-Z_][a-zA-Z0-9]*)/,
         /^(?:$)/
     ];
-    conditions: any = {"STRING":{"rules":[7,8],"inclusive":false},"BSTRING":{"rules":[10,11],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,9,12,13],"inclusive":true}}
+    conditions: any = {"STRING":{"rules":[13,14],"inclusive":false},"BSTRING":{"rules":[16,17],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,15,18,19],"inclusive":true}}
     performAction (yy:any,yy_:any,$avoiding_name_collisions:any,YY_START:any): any {
           var YYSTATE=YY_START;
         switch($avoiding_name_collisions) {
@@ -97,19 +115,25 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
     case 2:return 6
     case 3:return 7
     case 4:return 9
-    case 5:return 14;
-    case 6:this.begin('STRING');  this.more();
+    case 5:return 22
+    case 6:return 23
+    case 7:return 'LBRACKET'
+    case 8:return 'RBRACKET'
+    case 9:return 11;
+    case 10:return 17;
+    case 11:return 'DOT';
+    case 12:this.begin('STRING');  this.more();
       break;
-    case 7:this.more();
+    case 13:this.more();
       break;
-    case 8:this.begin('INITIAL'); return 16; 
-    case 9:this.begin('BSTRING');  this.more();
+    case 14:this.begin('INITIAL'); return 18; 
+    case 15:this.begin('BSTRING');  this.more();
       break;
-    case 10:this.more();
+    case 16:this.more();
       break;
-    case 11:this.begin('INITIAL'); return 17;
-    case 12:return 15
-    case 13:return 5
+    case 17:this.begin('INITIAL'); return 19;
+    case 18:return 16
+    case 19:return 5
         }
     }
 }

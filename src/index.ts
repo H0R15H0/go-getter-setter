@@ -1,11 +1,13 @@
 const GolangParserAndLexer = require('./parser/golang');
 
 const txt = `
-struct {
+struct { // hoge
   a string "hoge"; // hoge
-  b int \`hgoefae\`
-  c int32 
-}
+  // b hoge.Value \`hgoefae\`
+  email struct{ hoge string } "int"
+  age, count (int32) 
+  // hgoe
+} // hgoe
 `;
 const res = new GolangParserAndLexer.GoParser().parse(txt);
 console.log(txt.trim(), '=', res);
