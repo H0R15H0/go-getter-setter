@@ -1,7 +1,7 @@
 const GolangParserAndLexer = require('./parser/golang');
 
 const txt = `
-type hoge[
+type user[
   T any,
 ] struct { // hoge
   name string "Name"; // hoge
@@ -9,6 +9,7 @@ type hoge[
   email struct{ hoge string } "int"
   age, count (int32) 
   cType pack.Sc[T]
+  posts [100]post
   // hgoe
 } // hgoe
 `;

@@ -15,7 +15,7 @@ function hexlify (str:string): string {
 %x STRING BSTRING
 
 id                          [a-zA-Z_][a-zA-Z0-9]*
-/* integer                     (0|[1-9][0-9]*) TODO */
+integer                     [0]|([1-9][0-9]*) /* TODO */
 
 %%
 
@@ -42,7 +42,8 @@ id                          [a-zA-Z_][a-zA-Z0-9]*
 <BSTRING>[^"`"\n]+    this.more();
 <BSTRING>"`"       this.begin('INITIAL'); return 'BSTRING';
 {id}                        return 'IDENT'
-/* {integer}                        return 'INT' */
+0[0-9]*                        throw 'integer must be [0]|([1-9][0-9]*)'
+{integer}                        return 'INT'
 <<EOF>>                     return 'EOF'
 
 /lex
@@ -195,9 +196,9 @@ TypeList
     ;
 
 TypeLit
-    /* : ArrayType
-        {$$ = $1} */
-    : StructType
+    : ArrayType
+        {$$ = $1}
+    | StructType
         {$$ = $1}
     /* | PointerType
     | FunctionType
@@ -207,7 +208,7 @@ TypeLit
     | ChannelType */
     ;
 
-/* ArrayType
+ArrayType
     : LBRACKET ArrayLength RBRACKET ElementType
         {$$ = "[" + $2 + "]" + $4}
     ;
@@ -220,7 +221,7 @@ ArrayLength
 ElementType
     : Type
         {$$ = $1}
-    ; */
+    ;
 
 QualifiedIdent
     : Id DOT Id //TODO: packagename
