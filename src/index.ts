@@ -10,6 +10,8 @@ type user[
   age, count (int32) 
   cType pack.Sc[T]
   posts [100]post
+  books []int
+  // getBook func( string) (string, int)
   // hgoe
 } // hgoe
 `;

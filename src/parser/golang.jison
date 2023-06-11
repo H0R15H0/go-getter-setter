@@ -24,6 +24,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 /* "\n"                        return 'NEWLINE' */
 "struct"                    return 'STRUCT'
 "type"                      return 'TYPE'
+/* "func"                      return 'FUNC' */
 "{"                         return 'LBRACE'
 "}"                         return 'RBRACE'
 "("                         return 'LPAREN'
@@ -35,6 +36,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "*"                         return 'ASTER';
 "~"                         return 'TILDE';
 ","                         return 'COMMA';
+"..."                       return 'DOTDOTDORT';
 "."                         return 'DOT';
 \"                        this.begin('STRING');  this.more();
 <STRING>[^\"\n]+    this.more();
@@ -203,13 +205,19 @@ TypeLit
         {$$ = $1}
     | PointerType
         {$$ = $1}
-    /* | FunctionType */
+    /* | FunctionType
+        {$$ = $1} */
     /* | InterfaceType */
-    /* | SliceType */
+    | SliceType
+        {$$ = $1}
     /* | MapType */
     /* | ChannelType */
     ;
 
+SliceType
+    : LBRACKET RBRACKET ElementType
+        {$$ = "[]" + $3}
+    ;
 ArrayType
     : LBRACKET ArrayLength RBRACKET ElementType
         {$$ = "[" + $2 + "]" + $4}
@@ -234,6 +242,52 @@ BaseType
     : Type
         {$$ = $1}
     ;
+
+/* FunctionType
+    : FUNC Signature
+        {$$ = $1 + " " + $2}
+    ;
+
+Signature
+    : Parameters
+        {$$ = $1}
+    | Parameters Result
+        {$$ = $1 + " " + $2}
+    ;
+
+Result
+    : TypeList
+        {$$ = $1}
+    | LPAREN TypeList RPAREN
+        {$$ = "(" + $2 + ")"}
+    | LPAREN TypeList COMMA RPAREN
+        {$$ = "(" + $2 + ")"}
+    ;
+
+Parameters
+    : LPAREN RPAREN
+        {$$ = "()"}
+    | LPAREN ParameterList RPAREN
+        {$$ = "(" + $2 + ")"}
+    | LPAREN ParameterList COMMA RPAREN
+        {$$ = "(" + $2 + ")"}
+    ;
+
+ParameterList
+    : ParameterDecl
+        {$$ = $1}
+    | ParameterList COMMA ParameterDecl
+        {$$ = $1 + ", " + $2}
+    ;
+
+ParameterDecl
+    | IdList DOTDOTDOT Type
+        {$$ = $1 + " ... " + $3}
+    : IdList Type
+        {$$ = $1 + " " + $2}
+    : Type
+        {$$ = $1}
+    ; */
 
 QualifiedIdent
     : Id DOT Id //TODO: packagename

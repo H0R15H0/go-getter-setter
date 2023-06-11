@@ -12,19 +12,19 @@ function hexlify (str:string): string {
 
 export class GoParser extends JisonParser implements JisonParserApi {
     $?: any;
-    symbols_: SymbolsType = {"error":2,"pgm":3,"TYPE":4,"Id":5,"StructType":6,"EOF":7,"TypeParameters":8,"STRUCT":9,"LBRACE":10,"FieldList":11,"RBRACE":12,"Field":13,"SEMICOLON":14,"IdList":15,"Type":16,"Tag":17,"IDENT":18,"COMMA":19,"STRING":20,"BSTRING":21,"LBRACKET":22,"TypeParamList":23,"RBRACKET":24,"TypeParamDecl":25,"TypeConstraint":26,"TypeElem":27,"TypeTerm":28,"VARTICALBAR":29,"UnderlyingType":30,"TILDE":31,"TypeName":32,"TypeArgs":33,"TypeLit":34,"LPAREN":35,"RPAREN":36,"QualifiedIdent":37,"TypeList":38,"ArrayType":39,"PointerType":40,"ArrayLength":41,"ElementType":42,"INT":43,"ASTER":44,"BaseType":45,"DOT":46,"$accept":0,"$end":1};
-    terminals_: TerminalsType = {2:"error",4:"TYPE",7:"EOF",9:"STRUCT",10:"LBRACE",12:"RBRACE",14:"SEMICOLON",18:"IDENT",19:"COMMA",20:"STRING",21:"BSTRING",22:"LBRACKET",24:"RBRACKET",29:"VARTICALBAR",31:"TILDE",35:"LPAREN",36:"RPAREN",43:"INT",44:"ASTER",46:"DOT"};
-    productions_: ProductionsType = [0,[3,4],[3,5],[6,4],[11,1],[11,2],[11,2],[11,3],[13,3],[13,2],[5,1],[15,1],[15,3],[17,1],[17,1],[8,3],[8,4],[23,1],[23,3],[25,2],[26,1],[27,1],[27,3],[28,1],[28,1],[30,2],[16,1],[16,2],[16,1],[16,3],[32,1],[32,1],[33,3],[33,4],[38,1],[38,3],[34,1],[34,1],[34,1],[39,4],[41,1],[42,1],[40,2],[45,1],[37,3]];
+    symbols_: SymbolsType = {"error":2,"pgm":3,"TYPE":4,"Id":5,"StructType":6,"EOF":7,"TypeParameters":8,"STRUCT":9,"LBRACE":10,"FieldList":11,"RBRACE":12,"Field":13,"SEMICOLON":14,"IdList":15,"Type":16,"Tag":17,"IDENT":18,"COMMA":19,"STRING":20,"BSTRING":21,"LBRACKET":22,"TypeParamList":23,"RBRACKET":24,"TypeParamDecl":25,"TypeConstraint":26,"TypeElem":27,"TypeTerm":28,"VARTICALBAR":29,"UnderlyingType":30,"TILDE":31,"TypeName":32,"TypeArgs":33,"TypeLit":34,"LPAREN":35,"RPAREN":36,"QualifiedIdent":37,"TypeList":38,"ArrayType":39,"PointerType":40,"SliceType":41,"ElementType":42,"ArrayLength":43,"INT":44,"ASTER":45,"BaseType":46,"DOT":47,"$accept":0,"$end":1};
+    terminals_: TerminalsType = {2:"error",4:"TYPE",7:"EOF",9:"STRUCT",10:"LBRACE",12:"RBRACE",14:"SEMICOLON",18:"IDENT",19:"COMMA",20:"STRING",21:"BSTRING",22:"LBRACKET",24:"RBRACKET",29:"VARTICALBAR",31:"TILDE",35:"LPAREN",36:"RPAREN",44:"INT",45:"ASTER",47:"DOT"};
+    productions_: ProductionsType = [0,[3,4],[3,5],[6,4],[11,1],[11,2],[11,2],[11,3],[13,3],[13,2],[5,1],[15,1],[15,3],[17,1],[17,1],[8,3],[8,4],[23,1],[23,3],[25,2],[26,1],[27,1],[27,3],[28,1],[28,1],[30,2],[16,1],[16,2],[16,1],[16,3],[32,1],[32,1],[33,3],[33,4],[38,1],[38,3],[34,1],[34,1],[34,1],[34,1],[41,3],[39,4],[43,1],[42,1],[40,2],[46,1],[37,3]];
     table: Array<StateType>;
-    defaultActions: {[key:number]: any} = {9:[2,1],16:[2,2],20:[2,15],41:[2,6],43:[2,16],52:[2,40],56:[2,7]};
+    defaultActions: {[key:number]: any} = {9:[2,1],16:[2,2],20:[2,15],42:[2,6],44:[2,16],54:[2,42],58:[2,7]};
 
     constructor (yy = {}, lexer = new GoLexer(yy)) {
       super(yy, lexer);
 
       // shorten static method to just `o` for terse STATE_TABLE
-      const $V0=[1,4],$V1=[1,7],$V2=[19,24],$V3=[1,36],$V4=[1,30],$V5=[1,29],$V6=[1,37],$V7=[9,18,22,31,35,44],$V8=[19,24,29],$V9=[12,14,18,19,20,21,24,29,36],$Va=[12,14,18,19,20,21,22,24,29,36],$Vb=[12,14,18];
+      const $V0=[1,4],$V1=[1,7],$V2=[19,24],$V3=[1,37],$V4=[1,30],$V5=[1,29],$V6=[1,38],$V7=[9,18,22,31,35,45],$V8=[19,24,29],$V9=[12,14,18,19,20,21,24,29,36],$Va=[12,14,18,19,20,21,22,24,29,36],$Vb=[12,14,18];
       const o = JisonParser.expandParseTable;
-      this.table = [{3:1,4:[1,2]},{1:[3]},{5:3,18:$V0},{6:5,8:6,9:$V1,22:[1,8]},o([9,12,14,18,19,20,21,22,24,29,31,35,36,44,46],[2,10]),{7:[1,9]},{6:10,9:$V1},{10:[1,11]},{5:15,15:14,18:$V0,23:12,25:13},{1:[2,1]},{7:[1,16]},{5:15,11:17,13:18,15:19,18:$V0},{19:[1,21],24:[1,20]},o($V2,[2,17]),{5:31,6:34,9:$V1,16:25,18:$V0,22:$V3,26:22,27:23,28:24,30:26,31:$V4,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},o($V7,[2,11],{19:[1,38]}),{1:[2,2]},{12:[1,39]},{5:15,11:41,12:[2,4],13:18,14:[1,40],15:19,18:$V0},{5:31,6:34,9:$V1,16:42,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},{9:[2,15]},{5:15,15:14,18:$V0,24:[1,43],25:44},o($V2,[2,19]),o($V2,[2,20],{29:[1,45]}),o($V8,[2,21]),o($V8,[2,23]),o($V8,[2,24]),o($V9,[2,26],{33:46,22:[1,47]}),o($V9,[2,28]),{5:31,6:34,9:$V1,16:48,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},{5:31,6:34,9:$V1,16:49,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},o($Va,[2,30],{46:[1,50]}),o($Va,[2,31]),o($V9,[2,36]),o($V9,[2,37]),o($V9,[2,38]),{41:51,43:[1,52]},{5:31,6:34,9:$V1,16:54,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6,45:53},{5:15,15:55,18:$V0},o([7,12,14,18,19,20,21,24,29,36],[2,3]),{5:15,11:56,12:[2,5],13:18,15:19,18:$V0},{12:[2,6]},o($Vb,[2,9],{17:57,20:[1,58],21:[1,59]}),{9:[2,16]},o($V2,[2,18]),{5:31,6:34,9:$V1,16:25,18:$V0,22:$V3,28:60,30:26,31:$V4,32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},o($V9,[2,27]),{5:31,6:34,9:$V1,16:62,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,38:61,39:33,40:35,44:$V6},{36:[1,63]},o($V8,[2,25]),{5:64,18:$V0},{24:[1,65]},{24:[2,40]},o($V9,[2,42]),o($V9,[2,43]),o($V7,[2,12]),{12:[2,7]},o($Vb,[2,8]),o($Vb,[2,13]),o($Vb,[2,14]),o($V8,[2,22]),{19:[1,67],24:[1,66]},o($V2,[2,34]),o($V9,[2,29]),o($Va,[2,44]),{5:31,6:34,9:$V1,16:69,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,42:68,44:$V6},o($V9,[2,32]),{5:31,6:34,9:$V1,16:71,18:$V0,22:$V3,24:[1,70],32:27,34:28,35:$V5,37:32,39:33,40:35,44:$V6},o($V9,[2,39]),o($V9,[2,41]),o($V9,[2,33]),o($V2,[2,35])];
+      this.table = [{3:1,4:[1,2]},{1:[3]},{5:3,18:$V0},{6:5,8:6,9:$V1,22:[1,8]},o([9,12,14,18,19,20,21,22,24,29,31,35,36,45,47],[2,10]),{7:[1,9]},{6:10,9:$V1},{10:[1,11]},{5:15,15:14,18:$V0,23:12,25:13},{1:[2,1]},{7:[1,16]},{5:15,11:17,13:18,15:19,18:$V0},{19:[1,21],24:[1,20]},o($V2,[2,17]),{5:31,6:34,9:$V1,16:25,18:$V0,22:$V3,26:22,27:23,28:24,30:26,31:$V4,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},o($V7,[2,11],{19:[1,39]}),{1:[2,2]},{12:[1,40]},{5:15,11:42,12:[2,4],13:18,14:[1,41],15:19,18:$V0},{5:31,6:34,9:$V1,16:43,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},{9:[2,15]},{5:15,15:14,18:$V0,24:[1,44],25:45},o($V2,[2,19]),o($V2,[2,20],{29:[1,46]}),o($V8,[2,21]),o($V8,[2,23]),o($V8,[2,24]),o($V9,[2,26],{33:47,22:[1,48]}),o($V9,[2,28]),{5:31,6:34,9:$V1,16:49,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},{5:31,6:34,9:$V1,16:50,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},o($Va,[2,30],{47:[1,51]}),o($Va,[2,31]),o($V9,[2,36]),o($V9,[2,37]),o($V9,[2,38]),o($V9,[2,39]),{24:[1,53],43:52,44:[1,54]},{5:31,6:34,9:$V1,16:56,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6,46:55},{5:15,15:57,18:$V0},o([7,12,14,18,19,20,21,24,29,36],[2,3]),{5:15,11:58,12:[2,5],13:18,15:19,18:$V0},{12:[2,6]},o($Vb,[2,9],{17:59,20:[1,60],21:[1,61]}),{9:[2,16]},o($V2,[2,18]),{5:31,6:34,9:$V1,16:25,18:$V0,22:$V3,28:62,30:26,31:$V4,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},o($V9,[2,27]),{5:31,6:34,9:$V1,16:64,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,38:63,39:33,40:35,41:36,45:$V6},{36:[1,65]},o($V8,[2,25]),{5:66,18:$V0},{24:[1,67]},{5:31,6:34,9:$V1,16:69,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,42:68,45:$V6},{24:[2,42]},o($V9,[2,44]),o($V9,[2,45]),o($V7,[2,12]),{12:[2,7]},o($Vb,[2,8]),o($Vb,[2,13]),o($Vb,[2,14]),o($V8,[2,22]),{19:[1,71],24:[1,70]},o($V2,[2,34]),o($V9,[2,29]),o($Va,[2,46]),{5:31,6:34,9:$V1,16:69,18:$V0,22:$V3,32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,42:72,45:$V6},o($V9,[2,40]),o($V9,[2,43]),o($V9,[2,32]),{5:31,6:34,9:$V1,16:74,18:$V0,22:$V3,24:[1,73],32:27,34:28,35:$V5,37:32,39:33,40:35,41:36,45:$V6},o($V9,[2,41]),o($V9,[2,33]),o($V2,[2,35])];
     }
 
     performAction (yytext:string, yyleng:number, yylineno:number, yy:any, yystate:number /* action[1] */, $$:any /* vstack */, _$:any /* lstack */): any {
@@ -60,10 +60,10 @@ break;
 case 9: case 19:
 this.$ = $$[$0-1] + " " + $$[$0]
 break;
-case 10: case 13: case 14: case 40:
+case 10: case 13: case 14: case 42:
 this.$ = yytext
 break;
-case 11: case 17: case 20: case 21: case 23: case 24: case 26: case 28: case 30: case 31: case 34: case 36: case 37: case 38: case 41: case 43:
+case 11: case 17: case 20: case 21: case 23: case 24: case 26: case 28: case 30: case 31: case 34: case 36: case 37: case 38: case 39: case 43: case 45:
 this.$ = $$[$0]
 break;
 case 12: case 35:
@@ -87,13 +87,16 @@ break;
 case 29:
 this.$ = $$[$0-1]
 break;
-case 39:
+case 40:
+this.$ = "[]" + $$[$0]
+break;
+case 41:
 this.$ = "[" + $$[$0-2] + "]" + $$[$0]
 break;
-case 42:
+case 44:
 this.$ = "*" + $$[$0]
 break;
-case 44:
+case 46:
 this.$ = $$[$0-2] + "." + $$[$0]
 break;
         }
@@ -126,6 +129,7 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:\*)/,
         /^(?:~)/,
         /^(?:,)/,
+        /^(?:\.\.\.)/,
         /^(?:\.)/,
         /^(?:")/,
         /^(?:[^\"\n]+)/,
@@ -138,7 +142,7 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:[0]|[1-9][0-9]*)/,
         /^(?:$)/
     ];
-    conditions: any = {"STRING":{"rules":[17,18],"inclusive":false},"BSTRING":{"rules":[20,21],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,22,23,24,25],"inclusive":true}}
+    conditions: any = {"STRING":{"rules":[18,19],"inclusive":false},"BSTRING":{"rules":[21,22],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,23,24,25,26],"inclusive":true}}
     performAction (yy:any,yy_:any,$avoiding_name_collisions:any,YY_START:any): any {
           var YYSTATE=YY_START;
         switch($avoiding_name_collisions) {
@@ -156,25 +160,26 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
     case 9:return 24
     case 10:return 14;
     case 11:return 29;
-    case 12:return 44;
+    case 12:return 45;
     case 13:return 31;
     case 14:return 19;
-    case 15:return 46;
-    case 16:this.begin('STRING');  this.more();
+    case 15:return 'DOTDOTDORT';
+    case 16:return 47;
+    case 17:this.begin('STRING');  this.more();
       break;
-    case 17:this.more();
+    case 18:this.more();
       break;
-    case 18:this.begin('INITIAL'); return 20; 
-    case 19:this.begin('BSTRING');  this.more();
+    case 19:this.begin('INITIAL'); return 20; 
+    case 20:this.begin('BSTRING');  this.more();
       break;
-    case 20:this.more();
+    case 21:this.more();
       break;
-    case 21:this.begin('INITIAL'); return 21;
-    case 22:return 18
-    case 23:throw 'integer must be [0]|([1-9][0-9]*)'
+    case 22:this.begin('INITIAL'); return 21;
+    case 23:return 18
+    case 24:throw 'integer must be [0]|([1-9][0-9]*)'
       break;
-    case 24:return 43
-    case 25:return 7
+    case 25:return 44
+    case 26:return 7
         }
     }
 }
