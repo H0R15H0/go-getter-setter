@@ -31,6 +31,8 @@ id                          [a-zA-Z_][a-zA-Z0-9]*
 "["                         return 'LBRACKET'
 "]"                         return 'RBRACKET'
 ";"                         return 'SEMICOLON';
+"|"                         return 'VARTICALBAR';
+"~"                         return 'TILDE';
 ","                         return 'COMMA';
 "."                         return 'DOT';
 \"                        this.begin('STRING');  this.more();
@@ -55,6 +57,9 @@ pgm
     : TYPE Id StructType EOF
         { if (yy.trace) yy.trace('returning', $1);
           return "type " + $2 + " " + $3 }
+    | TYPE Id TypeParameters StructType EOF
+        { if (yy.trace) yy.trace('returning', $1);
+          return "type " + $2 + " " + $3 + " " + $4 }
     ;
 
 StructType
@@ -114,11 +119,54 @@ Tag
         {$$ = yytext}
     ;
 
+TypeParameters
+    : LBRACKET TypeParamList RBRACKET
+        {$$ = "[" + $2 + "]"}
+    | LBRACKET TypeParamList COMMA RBRACKET
+        {$$ = "[" + $2 + "]"}
+    ;
+
+TypeParamList
+    : TypeParamDecl
+        {$$ = $1}
+    | TypeParamList COMMA TypeParamDecl
+        {$$ = $1 + " , " + $3}
+    ;
+
+TypeParamDecl
+    : IdList TypeConstraint
+        {$$ = $1 + " " + $2}
+    ;
+
+TypeConstraint
+    : TypeElem
+        {$$ = $1}
+    ;
+
+TypeElem
+    : TypeTerm
+        {$$ = $1}
+    | TypeElem VARTICALBAR TypeTerm
+        {$$ = $1 + " | " + $3}
+    ;
+
+TypeTerm
+    : Type
+        {$$ = $1}
+    | UnderlyingType
+        {$$ = $1}
+    ;
+
+UnderlyingType
+    : TILDE Type
+        {$$ = $1 + $2}
+    ;
+
 Type
     : TypeName
         {$$ = $1}
-    /* | TypeName TypeArgs
-        {$$ = $1 + $2} */
+    | TypeName TypeArgs
+        {$$ = $1 + $2}
     | TypeLit
         {$$ = $1}
     | LPAREN Type RPAREN
@@ -132,19 +180,19 @@ TypeName
         {$$ = $1} */
     ;
 
-/* TypeArgs
+TypeArgs
     : LBRACKET TypeList RBRACKET
-        {$$ = $2}
+        {$$ = "[" + $2 + "]"}
     | LBRACKET TypeList COMMA RBRACKET
-        {$$ = $2}
-    ; */
+        {$$ = "[" + $2 + "]"}
+    ;
 
-/* TypeList
+TypeList
     : Type
         {$$ = $1}
-    | Type COMMA TypeList
+    | TypeList COMMA Type
         {$$ = $1 + ", " + $3}
-    ; */
+    ;
 
 TypeLit
     /* : ArrayType

@@ -12,19 +12,19 @@ function hexlify (str:string): string {
 
 export class GoParser extends JisonParser implements JisonParserApi {
     $?: any;
-    symbols_: SymbolsType = {"error":2,"pgm":3,"TYPE":4,"Id":5,"StructType":6,"EOF":7,"STRUCT":8,"LBRACE":9,"FieldList":10,"RBRACE":11,"Field":12,"SEMICOLON":13,"IdList":14,"Type":15,"Tag":16,"IDENT":17,"COMMA":18,"STRING":19,"BSTRING":20,"TypeName":21,"TypeLit":22,"LPAREN":23,"RPAREN":24,"$accept":0,"$end":1};
-    terminals_: TerminalsType = {2:"error",4:"TYPE",7:"EOF",8:"STRUCT",9:"LBRACE",11:"RBRACE",13:"SEMICOLON",17:"IDENT",18:"COMMA",19:"STRING",20:"BSTRING",23:"LPAREN",24:"RPAREN"};
-    productions_: ProductionsType = [0,[3,4],[6,4],[10,1],[10,2],[10,2],[10,3],[12,3],[12,2],[5,1],[14,1],[14,3],[16,1],[16,1],[15,1],[15,1],[15,3],[21,1],[22,1]];
+    symbols_: SymbolsType = {"error":2,"pgm":3,"TYPE":4,"Id":5,"StructType":6,"EOF":7,"TypeParameters":8,"STRUCT":9,"LBRACE":10,"FieldList":11,"RBRACE":12,"Field":13,"SEMICOLON":14,"IdList":15,"Type":16,"Tag":17,"IDENT":18,"COMMA":19,"STRING":20,"BSTRING":21,"LBRACKET":22,"TypeParamList":23,"RBRACKET":24,"TypeParamDecl":25,"TypeConstraint":26,"TypeElem":27,"TypeTerm":28,"VARTICALBAR":29,"UnderlyingType":30,"TILDE":31,"TypeName":32,"TypeArgs":33,"TypeLit":34,"LPAREN":35,"RPAREN":36,"TypeList":37,"$accept":0,"$end":1};
+    terminals_: TerminalsType = {2:"error",4:"TYPE",7:"EOF",9:"STRUCT",10:"LBRACE",12:"RBRACE",14:"SEMICOLON",18:"IDENT",19:"COMMA",20:"STRING",21:"BSTRING",22:"LBRACKET",24:"RBRACKET",29:"VARTICALBAR",31:"TILDE",35:"LPAREN",36:"RPAREN"};
+    productions_: ProductionsType = [0,[3,4],[3,5],[6,4],[11,1],[11,2],[11,2],[11,3],[13,3],[13,2],[5,1],[15,1],[15,3],[17,1],[17,1],[8,3],[8,4],[23,1],[23,3],[25,2],[26,1],[27,1],[27,3],[28,1],[28,1],[30,2],[16,1],[16,2],[16,1],[16,3],[32,1],[33,3],[33,4],[37,1],[37,3],[34,1]];
     table: Array<StateType>;
-    defaultActions: {[key:number]: any} = {7:[2,1],15:[2,5],23:[2,6]};
+    defaultActions: {[key:number]: any} = {9:[2,1],16:[2,2],20:[2,15],36:[2,6],38:[2,16],46:[2,7]};
 
     constructor (yy = {}, lexer = new GoLexer(yy)) {
       super(yy, lexer);
 
       // shorten static method to just `o` for terse STATE_TABLE
-      const $V0=[1,4],$V1=[1,6],$V2=[1,19],$V3=[8,17,23],$V4=[11,13,17],$V5=[11,13,17,19,20,24];
+      const $V0=[1,4],$V1=[1,7],$V2=[19,24],$V3=[1,30],$V4=[1,29],$V5=[9,18,31,35],$V6=[19,24,29],$V7=[12,14,18,19,20,21,24,29,36],$V8=[12,14,18];
       const o = JisonParser.expandParseTable;
-      this.table = [{3:1,4:[1,2]},{1:[3]},{5:3,17:$V0},{6:5,8:$V1},o([8,11,13,17,18,19,20,23,24],[2,9]),{7:[1,7]},{9:[1,8]},{1:[2,1]},{5:12,10:9,12:10,14:11,17:$V0},{11:[1,13]},{5:12,10:15,11:[2,3],12:10,13:[1,14],14:11,17:$V0},{5:20,6:21,8:$V1,15:16,17:$V0,21:17,22:18,23:$V2},o($V3,[2,10],{18:[1,22]}),o([7,11,13,17,19,20,24],[2,2]),{5:12,10:23,11:[2,4],12:10,14:11,17:$V0},{11:[2,5]},o($V4,[2,8],{16:24,19:[1,25],20:[1,26]}),o($V5,[2,14]),o($V5,[2,15]),{5:20,6:21,8:$V1,15:27,17:$V0,21:17,22:18,23:$V2},o($V5,[2,17]),o($V5,[2,18]),{5:12,14:28,17:$V0},{11:[2,6]},o($V4,[2,7]),o($V4,[2,12]),o($V4,[2,13]),{24:[1,29]},o($V3,[2,11]),o($V5,[2,16])];
+      this.table = [{3:1,4:[1,2]},{1:[3]},{5:3,18:$V0},{6:5,8:6,9:$V1,22:[1,8]},o([9,12,14,18,19,20,21,22,24,29,31,35,36],[2,10]),{7:[1,9]},{6:10,9:$V1},{10:[1,11]},{5:15,15:14,18:$V0,23:12,25:13},{1:[2,1]},{7:[1,16]},{5:15,11:17,13:18,15:19,18:$V0},{19:[1,21],24:[1,20]},o($V2,[2,17]),{5:31,6:32,9:$V1,16:25,18:$V0,26:22,27:23,28:24,30:26,31:$V3,32:27,34:28,35:$V4},o($V5,[2,11],{19:[1,33]}),{1:[2,2]},{12:[1,34]},{5:15,11:36,12:[2,4],13:18,14:[1,35],15:19,18:$V0},{5:31,6:32,9:$V1,16:37,18:$V0,32:27,34:28,35:$V4},{9:[2,15]},{5:15,15:14,18:$V0,24:[1,38],25:39},o($V2,[2,19]),o($V2,[2,20],{29:[1,40]}),o($V6,[2,21]),o($V6,[2,23]),o($V6,[2,24]),o($V7,[2,26],{33:41,22:[1,42]}),o($V7,[2,28]),{5:31,6:32,9:$V1,16:43,18:$V0,32:27,34:28,35:$V4},{5:31,6:32,9:$V1,16:44,18:$V0,32:27,34:28,35:$V4},o([12,14,18,19,20,21,22,24,29,36],[2,30]),o($V7,[2,35]),{5:15,15:45,18:$V0},o([7,12,14,18,19,20,21,24,29,36],[2,3]),{5:15,11:46,12:[2,5],13:18,15:19,18:$V0},{12:[2,6]},o($V8,[2,9],{17:47,20:[1,48],21:[1,49]}),{9:[2,16]},o($V2,[2,18]),{5:31,6:32,9:$V1,16:25,18:$V0,28:50,30:26,31:$V3,32:27,34:28,35:$V4},o($V7,[2,27]),{5:31,6:32,9:$V1,16:52,18:$V0,32:27,34:28,35:$V4,37:51},{36:[1,53]},o($V6,[2,25]),o($V5,[2,12]),{12:[2,7]},o($V8,[2,8]),o($V8,[2,13]),o($V8,[2,14]),o($V6,[2,22]),{19:[1,55],24:[1,54]},o($V2,[2,33]),o($V7,[2,29]),o($V7,[2,31]),{5:31,6:32,9:$V1,16:57,18:$V0,24:[1,56],32:27,34:28,35:$V4},o($V7,[2,32]),o($V2,[2,34])];
     }
 
     performAction (yytext:string, yyleng:number, yylineno:number, yy:any, yystate:number /* action[1] */, $$:any /* vstack */, _$:any /* lstack */): any {
@@ -36,36 +36,55 @@ case 1:
           return "type " + $$[$0-2] + " " + $$[$0-1] 
 break;
 case 2:
-this.$ = "struct {" + $$[$0-1] + " }" ;
+ if (yy.trace) yy.trace('returning', $$[$0-4]);
+          return "type " + $$[$0-3] + " " + $$[$0-2] + " " + $$[$0-1] 
 break;
 case 3:
-this.$ = $$[$0] + "; "
+this.$ = "struct {" + $$[$0-1] + " }" ;
 break;
 case 4:
-this.$ = $$[$0-1] + "; "
+this.$ = $$[$0] + "; "
 break;
 case 5:
-this.$ = $$[$0-1] + "; " + $$[$0]
+this.$ = $$[$0-1] + "; "
 break;
 case 6:
-this.$ = $$[$0-2] + "; " + $$[$0]
+this.$ = $$[$0-1] + "; " + $$[$0]
 break;
 case 7:
-this.$ = $$[$0-2] + " " + $$[$0-1] + " " + $$[$0]
+this.$ = $$[$0-2] + "; " + $$[$0]
 break;
 case 8:
+this.$ = $$[$0-2] + " " + $$[$0-1] + " " + $$[$0]
+break;
+case 9: case 19:
 this.$ = $$[$0-1] + " " + $$[$0]
 break;
-case 9: case 12: case 13: case 17:
+case 10: case 13: case 14: case 30:
 this.$ = yytext
 break;
-case 10: case 14: case 15: case 18:
+case 11: case 17: case 20: case 21: case 23: case 24: case 26: case 28: case 33: case 35:
 this.$ = $$[$0]
 break;
-case 11:
+case 12: case 34:
 this.$ = $$[$0-2] + ", " + $$[$0]
 break;
-case 16:
+case 15: case 31:
+this.$ = "[" + $$[$0-1] + "]"
+break;
+case 16: case 32:
+this.$ = "[" + $$[$0-2] + "]"
+break;
+case 18:
+this.$ = $$[$0-2] + " , " + $$[$0]
+break;
+case 22:
+this.$ = $$[$0-2] + " | " + $$[$0]
+break;
+case 25: case 27:
+this.$ = $$[$0-1] + $$[$0]
+break;
+case 29:
 this.$ = $$[$0-1]
 break;
         }
@@ -94,6 +113,8 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:\[)/,
         /^(?:\])/,
         /^(?:;)/,
+        /^(?:\|)/,
+        /^(?:~)/,
         /^(?:,)/,
         /^(?:\.)/,
         /^(?:")/,
@@ -105,7 +126,7 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
         /^(?:[a-zA-Z_][a-zA-Z0-9]*)/,
         /^(?:$)/
     ];
-    conditions: any = {"STRING":{"rules":[14,15],"inclusive":false},"BSTRING":{"rules":[17,18],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,16,19,20],"inclusive":true}}
+    conditions: any = {"STRING":{"rules":[16,17],"inclusive":false},"BSTRING":{"rules":[19,20],"inclusive":false},"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,18,21,22],"inclusive":true}}
     performAction (yy:any,yy_:any,$avoiding_name_collisions:any,YY_START:any): any {
           var YYSTATE=YY_START;
         switch($avoiding_name_collisions) {
@@ -113,29 +134,31 @@ export class GoLexer extends JisonLexer implements JisonLexerApi {
       break;
     case 1:if (yy.trace) yy.trace(`skipping whitespace ${hexlify(yy_.yytext)}`)
       break;
-    case 2:return 8
+    case 2:return 9
     case 3:return 4
-    case 4:return 9
-    case 5:return 11
-    case 6:return 23
-    case 7:return 24
-    case 8:return 'LBRACKET'
-    case 9:return 'RBRACKET'
-    case 10:return 13;
-    case 11:return 18;
-    case 12:return 'DOT';
-    case 13:this.begin('STRING');  this.more();
+    case 4:return 10
+    case 5:return 12
+    case 6:return 35
+    case 7:return 36
+    case 8:return 22
+    case 9:return 24
+    case 10:return 14;
+    case 11:return 29;
+    case 12:return 31;
+    case 13:return 19;
+    case 14:return 'DOT';
+    case 15:this.begin('STRING');  this.more();
       break;
-    case 14:this.more();
+    case 16:this.more();
       break;
-    case 15:this.begin('INITIAL'); return 19; 
-    case 16:this.begin('BSTRING');  this.more();
+    case 17:this.begin('INITIAL'); return 20; 
+    case 18:this.begin('BSTRING');  this.more();
       break;
-    case 17:this.more();
+    case 19:this.more();
       break;
-    case 18:this.begin('INITIAL'); return 20;
-    case 19:return 17
-    case 20:return 7
+    case 20:this.begin('INITIAL'); return 21;
+    case 21:return 18
+    case 22:return 7
         }
     }
 }
