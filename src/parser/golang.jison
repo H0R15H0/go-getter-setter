@@ -40,6 +40,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "//".*                      /* ignore comment */
 [\s\t]+                   if (yy.trace) yy.trace(`skipping whitespace ${hexlify(yytext)}`)
 /* "\n"                        return 'NEWLINE' */
+"interface"                    return 'INTERFACE'
 "struct"                    return 'STRUCT'
 "type"                      return 'TYPE'
 "map"                       return 'MAP'
@@ -244,7 +245,11 @@ TypeLit
         {$$ = $1}
     | FunctionType
         {$$ = $1}
-    /* | InterfaceType */
+    | InterfaceType
+        {
+            if ($1.length == 0) $$ = "interface{}";
+            else $$ = "interface{ " + $1.map((f: Field) => (f.name + "" + f.type)).join(", ") + " }";
+        }
     | SliceType
         {$$ = $1}
     | MapType
@@ -296,6 +301,37 @@ PointerType
 
 BaseType
     : Type
+        {$$ = $1}
+    ;
+
+InterfaceType
+    : INTERFACE LBRACE InterfaceElems RBRACE
+        {$$ = $3}
+    ;
+
+InterfaceElems
+    : InterfaceElem
+        {$$ = [$1]}
+    | InterfaceElems SEMICOLON InterfaceElem
+        {$1.push($3); $$ = $1}
+    |
+        {$$ = []}
+    ;
+
+InterfaceElem
+    : MethodElem
+        {$$ = $1}
+    | TypeElem // TODO: support type element
+        {$$ = $1}
+    ;
+
+MethodElem
+    : MethodName Signature
+        {$$ = makeField($1, $2)}
+    ;
+
+MethodName
+    : Id
         {$$ = $1}
     ;
 

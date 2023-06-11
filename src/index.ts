@@ -18,6 +18,9 @@ type user[
   getBooks func(a, b )
   getPosts func(...string)
   hoge, hoge string
+  inter interface{
+    hoge(hoge string) (string)
+  }
   // hgoe
 } // hgoe
 `;
