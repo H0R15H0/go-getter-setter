@@ -11,6 +11,7 @@ type user[
   cType pack.Sc[T]
   posts [100]post
   books []int
+  comment map[string]int
   // getBook func( string) (string, int)
   // hgoe
 } // hgoe

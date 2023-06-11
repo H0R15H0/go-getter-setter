@@ -24,6 +24,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 /* "\n"                        return 'NEWLINE' */
 "struct"                    return 'STRUCT'
 "type"                      return 'TYPE'
+"map"                       return 'MAP'
 /* "func"                      return 'FUNC' */
 "{"                         return 'LBRACE'
 "}"                         return 'RBRACE'
@@ -210,7 +211,8 @@ TypeLit
     /* | InterfaceType */
     | SliceType
         {$$ = $1}
-    /* | MapType */
+    | MapType
+        {$$ = $1}
     /* | ChannelType */
     ;
 
@@ -218,6 +220,12 @@ SliceType
     : LBRACKET RBRACKET ElementType
         {$$ = "[]" + $3}
     ;
+
+MapType
+    : MAP LBRACKET Type RBRACKET ElementType
+        {$$ = "map[" + $3 + "]" + $5}
+    ;
+
 ArrayType
     : LBRACKET ArrayLength RBRACKET ElementType
         {$$ = "[" + $2 + "]" + $4}
