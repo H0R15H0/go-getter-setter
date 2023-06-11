@@ -8,7 +8,7 @@ type hoge[
   // b hoge.Value \`hgoefae\`
   email struct{ hoge string } "int"
   age, count (int32) 
-  cType c[T]
+  cType pack.Sc[T]
   // hgoe
 } // hgoe
 `;

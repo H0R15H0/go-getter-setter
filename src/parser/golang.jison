@@ -175,9 +175,9 @@ Type
 
 TypeName
     : Id
-        {$$ = yytext}
-    /* | QualifiedIdent
-        {$$ = $1} */
+        {$$ = $1}
+    | QualifiedIdent
+        {$$ = $1}
     ;
 
 TypeArgs
@@ -222,12 +222,7 @@ ElementType
         {$$ = $1}
     ; */
 
-/* QualifiedIdent
-    : PackageName DOT Id
+QualifiedIdent
+    : Id DOT Id //TODO: packagename
         {$$ = $1 + "." + $3}
     ;
-
-PackageName
-    : Id
-        {$$ = yytext}
-    ; */
