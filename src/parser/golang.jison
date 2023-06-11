@@ -23,6 +23,7 @@ id                          [a-zA-Z_][a-zA-Z0-9]*
 [\s\t]+                   if (yy.trace) yy.trace(`skipping whitespace ${hexlify(yytext)}`)
 /* "\n"                        return 'NEWLINE' */
 "struct"                    return 'STRUCT'
+"type"                      return 'TYPE'
 "{"                         return 'LBRACE'
 "}"                         return 'RBRACE'
 "("                         return 'LPAREN'
@@ -51,9 +52,9 @@ id                          [a-zA-Z_][a-zA-Z0-9]*
 %% /* language grammar */
 
 pgm
-    : StructType EOF
+    : TYPE Id StructType EOF
         { if (yy.trace) yy.trace('returning', $1);
-          return $1; }
+          return "type " + $2 + " " + $3 }
     ;
 
 StructType

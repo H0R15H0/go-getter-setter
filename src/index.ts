@@ -1,7 +1,7 @@
 const GolangParserAndLexer = require('./parser/golang');
 
 const txt = `
-struct { // hoge
+type hoge struct { // hoge
   a string "hoge"; // hoge
   // b hoge.Value \`hgoefae\`
   email struct{ hoge string } "int"
