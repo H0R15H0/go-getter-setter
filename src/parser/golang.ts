@@ -128,10 +128,10 @@ case 44:
 this.$ = "chan " + $$[$0]
 break;
 case 45:
-this.$ = "chan <- " + $$[$0]
+this.$ = "chan <-" + $$[$0]
 break;
 case 46:
-this.$ = "<- chan " + $$[$0]
+this.$ = "<-chan " + $$[$0]
 break;
 case 47:
 this.$ = "[" + $$[$0-2] + "]" + $$[$0]

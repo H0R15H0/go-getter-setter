@@ -262,9 +262,9 @@ ChannelType
     : CHAN ElementType
         {$$ = "chan " + $2}
     | CHAN LARROW ElementType
-        {$$ = "chan <- " + $3}
+        {$$ = "chan <-" + $3}
     | LARROW CHAN ElementType
-        {$$ = "<- chan " + $3}
+        {$$ = "<-chan " + $3}
     ;
 
 ArrayType

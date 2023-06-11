@@ -12,6 +12,7 @@ type user[
   posts [100]post
   books []int
   comment map[string]int
+  ch <-chan <-chan int
   // getBook func( string) (string, int)
   // hgoe
 } // hgoe
