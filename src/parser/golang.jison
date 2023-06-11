@@ -32,6 +32,7 @@ integer                     [0]|([1-9][0-9]*) /* TODO */
 "]"                         return 'RBRACKET'
 ";"                         return 'SEMICOLON';
 "|"                         return 'VARTICALBAR';
+"*"                         return 'ASTER';
 "~"                         return 'TILDE';
 ","                         return 'COMMA';
 "."                         return 'DOT';
@@ -200,12 +201,13 @@ TypeLit
         {$$ = $1}
     | StructType
         {$$ = $1}
-    /* | PointerType
-    | FunctionType
-    | InterfaceType
-    | SliceType
-    | MapType
-    | ChannelType */
+    | PointerType
+        {$$ = $1}
+    /* | FunctionType */
+    /* | InterfaceType */
+    /* | SliceType */
+    /* | MapType */
+    /* | ChannelType */
     ;
 
 ArrayType
@@ -219,6 +221,16 @@ ArrayLength
     ;
 
 ElementType
+    : Type
+        {$$ = $1}
+    ;
+
+PointerType
+    : ASTER BaseType
+        {$$ = "*" + $2}
+    ;
+
+BaseType
     : Type
         {$$ = $1}
     ;

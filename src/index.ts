@@ -6,7 +6,7 @@ type user[
 ] struct { // hoge
   name string "Name"; // hoge
   // b hoge.Value \`hgoefae\`
-  email struct{ hoge string } "int"
+  email *struct{ hoge string } "int"
   age, count (int32) 
   cType pack.Sc[T]
   posts [100]post
