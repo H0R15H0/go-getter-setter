@@ -26,6 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
 		const parser = new GoParser();
 		const text = editor.document.getText(selection);
 		const res = parser.parse(text);
+
+		editor.edit((editBuilder)=> {
+			editBuilder.insert(selection.end, res.name);
+		});
 		console.log(text, '=', res);
 		vscode.window.showInformationMessage('Hello World from go-getter-setter!' + res);
 	});
