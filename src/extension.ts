@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const parser = new GoParser();
 		const text = editor.document.getText(selection);
 
-		let res:any;
+		let res:types.Struct;
 		try {
 			res = parser.parse(text);
 		} catch (e: any) {
