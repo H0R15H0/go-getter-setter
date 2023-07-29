@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 
 import {GoParser} from "./golang-parser/golang";
+import * as types from "./golang-parser/types";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -34,7 +35,16 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 		editor.edit((editBuilder)=> {
-			editBuilder.insert(new vscode.Position(selection.end.line + 1, 0), res.name);
+			let currentLocation = new vscode.Position(selection.end.line, 0);
+			if (!text.endsWith('\n')) {
+				currentLocation = new vscode.Position(selection.end.line + 1, 0);
+			}
+			insert(editBuilder, currentLocation, '');
+			insert(editBuilder, currentLocation, res.name);
+			for (const field of res.fields) {
+				insert(editBuilder, currentLocation, field.name);
+				insert(editBuilder, currentLocation, field.type);
+			}
 		});
 	});
 
@@ -43,3 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
+
+function insert(editBuilder: vscode.TextEditorEdit, location: vscode.Position, text: string): void{
+	editBuilder.insert(location, text + '\n');
+	// return location.translate(1);
+}
