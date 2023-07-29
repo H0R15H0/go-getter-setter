@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import {GoParser} from "./golang-parser/parser/golang";
+import {GoParser} from "./golang-parser/golang";
 
 const txt = `
 type user[
