@@ -41,12 +41,23 @@ export function activate(context: vscode.ExtensionContext) {
 				currentLocation = new vscode.Position(selection.end.line + 1, 0);
 			}
 			insert(editBuilder, currentLocation, '');
+
+			// Getter
 			for (const field of struct.fields) {
 				insert(editBuilder, currentLocation, dedent(`
 				func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
 					return ${struct.name[0].toLowerCase()}.${field.name}
 				}
-				`));
+				`), 2);
+			}
+
+			// Setter
+			for (const field of struct.fields) {
+				insert(editBuilder, currentLocation, dedent(`
+				func (${struct.name[0].toLowerCase()} *${struct.name}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
+					${struct.name[0].toLowerCase()}.${field.name} = ${field.name}
+				}
+				`), 2);
 			}
 		});
 	});
@@ -57,7 +68,6 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {}
 
-function insert(editBuilder: vscode.TextEditorEdit, location: vscode.Position, text: string): void{
-	editBuilder.insert(location, text + '\n');
-	// return location.translate(1);
+function insert(editBuilder: vscode.TextEditorEdit, location: vscode.Position, text: string, brCount: number = 1): void{
+	editBuilder.insert(location, text + '\n'.repeat(brCount));
 }
