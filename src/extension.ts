@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 
 import {GoParser} from "./golang-parser/golang";
 import * as types from "./golang-parser/types";
+import {dedent} from 'ts-dedent';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -27,9 +28,9 @@ export function activate(context: vscode.ExtensionContext) {
 		const parser = new GoParser();
 		const text = editor.document.getText(selection);
 
-		let res:types.Struct;
+		let struct:types.Struct;
 		try {
-			res = parser.parse(text);
+			struct = parser.parse(text);
 		} catch (e: any) {
 			vscode.window.showErrorMessage(e.message);
 			return;
@@ -40,10 +41,12 @@ export function activate(context: vscode.ExtensionContext) {
 				currentLocation = new vscode.Position(selection.end.line + 1, 0);
 			}
 			insert(editBuilder, currentLocation, '');
-			insert(editBuilder, currentLocation, res.name);
-			for (const field of res.fields) {
-				insert(editBuilder, currentLocation, field.name);
-				insert(editBuilder, currentLocation, field.type);
+			for (const field of struct.fields) {
+				insert(editBuilder, currentLocation, dedent(`
+				func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
+					return ${struct.name[0].toLowerCase()}.${field.name}
+				}
+				`));
 			}
 		});
 	});
