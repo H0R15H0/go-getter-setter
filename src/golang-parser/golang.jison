@@ -337,7 +337,7 @@ MethodName
 
 FunctionType
     : FUNC Signature
-        {$$ = $1 + " " + $2}
+        {$$ = $1 + $2}
     ;
 
 Signature

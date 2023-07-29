@@ -106,13 +106,13 @@ break;
 case 19:
 this.$ = $$[$0-2] + " , " + $$[$0]
 break;
-case 20: case 64: case 66: case 76:
+case 20: case 66: case 76:
 this.$ = $$[$0-1] + " " + $$[$0]
 break;
 case 23:
 this.$ = $$[$0-2] + " | " + $$[$0]
 break;
-case 26: case 28:
+case 26: case 28: case 64:
 this.$ = $$[$0-1] + $$[$0]
 break;
 case 38:
