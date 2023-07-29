@@ -25,13 +25,17 @@ export function activate(context: vscode.ExtensionContext) {
     const selection = editor.selection;
 		const parser = new GoParser();
 		const text = editor.document.getText(selection);
-		const res = parser.parse(text);
 
+		let res:any;
+		try {
+			res = parser.parse(text);
+		} catch (e: any) {
+			vscode.window.showErrorMessage(e.message);
+			return;
+		}
 		editor.edit((editBuilder)=> {
-			editBuilder.insert(selection.end, res.name);
+			editBuilder.insert(new vscode.Position(selection.end.line + 1, 0), res.name);
 		});
-		console.log(text, '=', res);
-		vscode.window.showInformationMessage('Hello World from go-getter-setter!' + res);
 	});
 
 	context.subscriptions.push(disposable);
