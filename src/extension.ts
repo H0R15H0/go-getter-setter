@@ -41,23 +41,24 @@ export function activate(context: vscode.ExtensionContext) {
 				currentLocation = new vscode.Position(selection.end.line + 1, 0);
 			}
 			insert(editBuilder, currentLocation, '');
-
+			
 			// Getter
-			for (const field of struct.fields) {
+			for (const [i, field] of struct.fields.entries()) {
 				insert(editBuilder, currentLocation, dedent(`
 				func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
 					return ${struct.name[0].toLowerCase()}.${field.name}
 				}
-				`), 2);
+				`), i === struct.fields.length - 1 ? 1 : 2);
 			}
+			insert(editBuilder, currentLocation, '');
 
 			// Setter
-			for (const field of struct.fields) {
+			for (const [i, field] of struct.fields.entries()) {
 				insert(editBuilder, currentLocation, dedent(`
 				func (${struct.name[0].toLowerCase()} *${struct.name}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
 					${struct.name[0].toLowerCase()}.${field.name} = ${field.name}
 				}
-				`), 2);
+				`), i === struct.fields.length - 1 ? 1 : 2);
 			}
 		});
 	});
