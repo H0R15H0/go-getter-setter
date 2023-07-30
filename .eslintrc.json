@@ -17,6 +17,7 @@
         "semi": "off"
     },
     "ignorePatterns": [
+        "src/golang-parser/golang.ts",
         "out",
         "dist",
         "**/*.d.ts"
