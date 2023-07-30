@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import {GoParser} from "./golang-parser/golang";
 import * as types from "./golang-parser/types";
 import {dedent} from 'ts-dedent';
+import {SELECT_BTN_GETTER, SELECT_BTN_SETTER} from './constants';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -35,31 +36,42 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage(e.message);
 			return;
 		}
-		editor.edit((editBuilder)=> {
-			let currentLocation = new vscode.Position(selection.end.line, 0);
-			if (!text.endsWith('\n')) {
-				currentLocation = new vscode.Position(selection.end.line + 1, 0);
-			}
-			insert(editBuilder, currentLocation, '');
-			
-			// Getter
-			for (const [i, field] of struct.fields.entries()) {
-				insert(editBuilder, currentLocation, dedent(`
-				func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
-					return ${struct.name[0].toLowerCase()}.${field.name}
-				}
-				`), i === struct.fields.length - 1 ? 1 : 2);
-			}
-			insert(editBuilder, currentLocation, '');
 
-			// Setter
-			for (const [i, field] of struct.fields.entries()) {
-				insert(editBuilder, currentLocation, dedent(`
-				func (${struct.name[0].toLowerCase()} *${struct.name}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
-					${struct.name[0].toLowerCase()}.${field.name} = ${field.name}
+		vscode.window.showQuickPick([SELECT_BTN_GETTER, SELECT_BTN_SETTER], { canPickMany: true, placeHolder: "select what you want to generate" }).then(items => {
+			if (items === undefined) {return;}
+			editor.edit((editBuilder)=> {
+				let currentLocation = new vscode.Position(selection.end.line, 0);
+				if (!text.endsWith('\n')) {
+					currentLocation = new vscode.Position(selection.end.line + 1, 0);
 				}
-				`), i === struct.fields.length - 1 ? 1 : 2);
-			}
+				insert(editBuilder, currentLocation, '');
+				
+				for (const item of items) {
+					// Getter
+					if (item === SELECT_BTN_GETTER) {
+						for (const [i, field] of struct.fields.entries()) {
+							insert(editBuilder, currentLocation, dedent(`
+							func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
+								return ${struct.name[0].toLowerCase()}.${field.name}
+							}
+							`), i === struct.fields.length - 1 ? 1 : 2);
+						}
+						if (items.length === 2) {
+							insert(editBuilder, currentLocation, '');
+						}
+					}
+					// Setter
+					if (item === SELECT_BTN_SETTER) {
+						for (const [i, field] of struct.fields.entries()) {
+							insert(editBuilder, currentLocation, dedent(`
+							func (${struct.name[0].toLowerCase()} *${struct.name}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
+								${struct.name[0].toLowerCase()}.${field.name} = ${field.name}
+							}
+							`), i === struct.fields.length - 1 ? 1 : 2);
+						}
+					}
+				}
+			});
 		});
 	});
 
