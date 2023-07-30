@@ -14,7 +14,7 @@ Generate getters and setters, regardless of whether the selected struct has fiel
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None
 
 ## Release Notes
 
