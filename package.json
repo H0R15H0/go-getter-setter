@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "go-getter-setter.helloWorld",
-        "title": "Hello World"
+        "command": "go-getter-setter.generate",
+        "title": "Go Getter Setter: Generate"
       }
     ]
   },
