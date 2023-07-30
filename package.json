@@ -1,7 +1,13 @@
 {
   "name": "go-getter-setter",
-  "displayName": "go-getter-setter",
-  "description": "",
+  "displayName": "Go Getter Setter",
+  "description": "Go Getter Setter is a powerful extension that generates getters and setters for Golang struct fields.",
+  "license": "MIT",
+	"publisher": "H0R15H0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/H0R15H0/go-getter-setter"
+	},
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
