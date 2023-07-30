@@ -2,6 +2,12 @@
 
 All notable changes to the "go-getter-setter" extension will be documented in this file.
 
+## 0.0.3
+
+### Fix
+
+- Update README and CHANGELOG
+
 ## 0.0.2
 
 ### Feature
