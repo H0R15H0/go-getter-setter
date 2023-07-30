@@ -72,13 +72,13 @@ case 5:
 break;
 case 6:
 
-            $$[$0].push($$[$0-1]);
+            $$[$0].unshift($$[$0-1]);
             this.$ = $$[$0]
         
 break;
 case 7:
 
-            $$[$0].push($$[$0-2]);
+            $$[$0].unshift($$[$0-2]);
             this.$ = $$[$0]
         
 break;
@@ -116,12 +116,12 @@ case 26: case 28: case 64:
 this.$ = $$[$0-1] + $$[$0]
 break;
 case 38:
-this.$ = "struct{ " + $$[$0].map((f: Field) => (f.name + " " + f.type)).join(", ") + " }"
+this.$ = "struct{ " + $$[$0].map((f: Field) => (f.name + " " + f.type)).join("; ") + " }"
 break;
 case 41:
 
             if ($$[$0].length == 0) this.$ = "interface{}";
-            else this.$ = "interface{ " + $$[$0].map((f: Field) => (f.name + "" + f.type)).join(", ") + " }";
+            else this.$ = "interface{ " + $$[$0].map((f: Field) => (f.name + "" + f.type)).join("; ") + " }";
         
 break;
 case 46:
@@ -149,7 +149,7 @@ case 57:
 this.$ = [$$[$0]]
 break;
 case 58:
-$$[$0-2].push($$[$0]); this.$ = $$[$0-2]
+$$[$0-2].unshift($$[$0]); this.$ = $$[$0-2]
 break;
 case 59:
 this.$ = []

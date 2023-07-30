@@ -107,12 +107,12 @@ FieldList
         }
     | Field FieldList
         {
-            $2.push($1);
+            $2.unshift($1);
             $$ = $2
         }
     | Field SEMICOLON FieldList
         {
-            $3.push($1);
+            $3.unshift($1);
             $$ = $3
         }
     ;
@@ -240,7 +240,7 @@ TypeLit
     : ArrayType
         {$$ = $1}
     | StructType
-        {$$ = "struct{ " + $1.map((f: Field) => (f.name + " " + f.type)).join(", ") + " }"}
+        {$$ = "struct{ " + $1.map((f: Field) => (f.name + " " + f.type)).join("; ") + " }"}
     | PointerType
         {$$ = $1}
     | FunctionType
@@ -248,7 +248,7 @@ TypeLit
     | InterfaceType
         {
             if ($1.length == 0) $$ = "interface{}";
-            else $$ = "interface{ " + $1.map((f: Field) => (f.name + "" + f.type)).join(", ") + " }";
+            else $$ = "interface{ " + $1.map((f: Field) => (f.name + "" + f.type)).join("; ") + " }";
         }
     | SliceType
         {$$ = $1}
@@ -313,7 +313,7 @@ InterfaceElems
     : InterfaceElem
         {$$ = [$1]}
     | InterfaceElems SEMICOLON InterfaceElem
-        {$1.push($3); $$ = $1}
+        {$1.unshift($3); $$ = $1}
     |
         {$$ = []}
     ;
