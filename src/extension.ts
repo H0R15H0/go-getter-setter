@@ -6,7 +6,6 @@ import {GoParser} from "./golang-parser/golang";
 import * as types from "./golang-parser/types";
 import {dedent} from 'ts-dedent';
 import {SELECT_BTN_GETTER, SELECT_BTN_SETTER} from './constants';
-import { resolve } from 'path';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -46,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				insert(editBuilder, currentLocation, '');
 
-				generate(editBuilder, currentLocation, struct, targets);
+				generate(editBuilder, currentLocation, struct.name, targets);
 			});
 		});
 	});
@@ -83,14 +82,14 @@ async function selectGenerateTargets(struct: types.Struct): Promise<GenerateTarg
 	return <GenerateTargets>{methods: methods, fields: generateFields};
 }
 
-function generate(editBuilder: vscode.TextEditorEdit, currentLocation: vscode.Position, struct: types.Struct, targets: GenerateTargets) {
+function generate(editBuilder: vscode.TextEditorEdit, currentLocation: vscode.Position, structName: string, targets: GenerateTargets) {
 		for (const item of targets.methods) {
 			// Getter
 			if (item === SELECT_BTN_GETTER) {
 				for (const [i, field] of targets.fields.entries()) {
 					insert(editBuilder, currentLocation, dedent(`
-					func (${struct.name[0].toLowerCase()} *${struct.name}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
-						return ${struct.name[0].toLowerCase()}.${field.name}
+					func (${structName[0].toLowerCase()} *${structName}) ${field.name[0].toUpperCase() + field.name.slice(1)}() ${field.type} {
+						return ${structName[0].toLowerCase()}.${field.name}
 					}
 					`), i === targets.fields.length - 1 ? 1 : 2);
 				}
@@ -102,8 +101,8 @@ function generate(editBuilder: vscode.TextEditorEdit, currentLocation: vscode.Po
 			if (item === SELECT_BTN_SETTER) {
 				for (const [i, field] of targets.fields.entries()) {
 					insert(editBuilder, currentLocation, dedent(`
-					func (${struct.name[0].toLowerCase()} *${struct.name}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
-						${struct.name[0].toLowerCase()}.${field.name} = ${field.name}
+					func (${structName[0].toLowerCase()} *${structName}) Set${field.name[0].toUpperCase() + field.name.slice(1)}(${field.name} ${field.type}) {
+						${structName[0].toLowerCase()}.${field.name} = ${field.name}
 					}
 					`), i === targets.fields.length - 1 ? 1 : 2);
 				}
