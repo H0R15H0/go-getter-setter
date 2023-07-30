@@ -1,9 +1,9 @@
 export type Struct = {
-  name: string,
-  fields: Field[],
+  name: string;
+  fields: Field[];
 };
 
 type Field = {
-  name: string,
-  type: string,
+  name: string;
+  type: string;
 };
