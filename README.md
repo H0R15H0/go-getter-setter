@@ -10,7 +10,7 @@ Generate getters and setters, regardless of whether the selected struct has fiel
 1. Select a range of structs you wish to generate.
 2. Press `Cmd+Shift+P` (or `Ctrl+Shift+P` in Windows) to select the command.
 
-![Demo](https://github.com/H0R15H0/go-getter-setter/tree/main/images/go-getter-setter.gif)
+![Demo](https://github.com/H0R15H0/go-getter-setter/blob/main/images/go-getter-setter.gif?raw=true)
 
 ## Known Issues
 
