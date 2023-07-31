@@ -2,6 +2,10 @@
 
 All notable changes to the "go-getter-setter" extension will be documented in this file.
 
+## 0.0.4
+
+- Support VSCode v1.70.x
+
 ## 0.0.3
 
 ### Fix
