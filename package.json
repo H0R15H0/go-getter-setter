@@ -1,14 +1,14 @@
 {
-  "name": "go-getter-setter",
-  "displayName": "Go Getter Setter",
-  "description": "Go Getter Setter is a powerful extension that generates getters and setters for Golang struct fields.",
+  "name": "go-getter-setter-encapsulate",
+  "displayName": "Go Getter Setter Encapsulate",
+  "description": "Go Getter Setter Encapsulate is a powerful extension that generates getters and setters for Golang struct fields with encapsulation features.",
   "license": "MIT",
-  "publisher": "H0R15H0",
+  "publisher": "imampri100",
   "repository": {
     "type": "git",
-    "url": "https://github.com/H0R15H0/go-getter-setter"
+    "url": "https://github.com/imampri100/go-getter-setter"
   },
-  "version": "0.0.4",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -20,8 +20,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "go-getter-setter.generate",
-        "title": "Go Getter Setter: Generate"
+        "command": "go-getter-setter-encapsulate.generate",
+        "title": "Go Getter Setter Encapsulate: Generate"
       }
     ]
   },
