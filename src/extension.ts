@@ -114,14 +114,31 @@ function generate(
   targets: GenerateTargets
 ) {
   for (const item of targets.methods) {
-    // Getter
+    // Setter Internal
+    if (item === SELECT_BTN_SETTER) {
+      for (const [i, field] of targets.fields.entries()) {
+        insert(
+          editBuilder,
+          currentLocation,
+          dedent(`
+					func (${structName[0].toLowerCase()} *${structName}) set${
+            field.name[0].toUpperCase() + field.name.slice(1)
+          }(${field.name} ${field.type}) {
+						${structName[0].toLowerCase()}.${field.name} = ${field.name}
+					}
+					`),
+          i === targets.fields.length - 1 ? 1 : 2
+        );
+      }
+    }
+    // Getter Internal
     if (item === SELECT_BTN_GETTER) {
       for (const [i, field] of targets.fields.entries()) {
         insert(
           editBuilder,
           currentLocation,
           dedent(`
-					func (${structName[0].toLowerCase()} *${structName}) ${
+					func (${structName[0].toLowerCase()} ${structName}) get${
             field.name[0].toUpperCase() + field.name.slice(1)
           }() ${field.type} {
 						return ${structName[0].toLowerCase()}.${field.name}
@@ -134,7 +151,7 @@ function generate(
         insert(editBuilder, currentLocation, "");
       }
     }
-    // Setter
+    // Setter Export
     if (item === SELECT_BTN_SETTER) {
       for (const [i, field] of targets.fields.entries()) {
         insert(
@@ -149,6 +166,26 @@ function generate(
 					`),
           i === targets.fields.length - 1 ? 1 : 2
         );
+      }
+    }
+    // Getter Export
+    if (item === SELECT_BTN_GETTER) {
+      for (const [i, field] of targets.fields.entries()) {
+        insert(
+          editBuilder,
+          currentLocation,
+          dedent(`
+					func (${structName[0].toLowerCase()} ${structName}) ${
+            field.name[0].toUpperCase() + field.name.slice(1)
+          }() ${field.type} {
+						return ${structName[0].toLowerCase()}.${field.name}
+					}
+					`),
+          i === targets.fields.length - 1 ? 1 : 2
+        );
+      }
+      if (targets.methods.length === 2) {
+        insert(editBuilder, currentLocation, "");
       }
     }
   }
