@@ -48,7 +48,7 @@
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.9.0",
     "glob": "^8.1.0",
-    "mocha": "^10.2.0",
+    "mocha": "^10.8.2",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "ts-loader": "^9.4.3",
